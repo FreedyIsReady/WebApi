@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<button class="btn btn-info" id="btnGetEmployees">Get Employees</button>
+<button class="btn btn-danger" id="btnClear">Clear</button>
+<ul class="list-group" id="ulEmployees">
+</ul>
+
+
+
+@section Scripts
+{
+       <script>
+           $(document).ready(function () {
+               var ulEmployees = $('#ulEmployees');
+
+               $('#btnGetEmployees').click(function () {
+                   ulEmployees.empty();
+                   $.ajax({
+                       method: 'get',
+                       url:'/api/employees',
+                       dataType: 'json',
+                       success: function (data) {
+                           $.each(data, function (index, val) {
+                               var fullname = val.FirstName + ' ' + val.LastName;
+                               ulEmployees.append('<li>'+ fullname+'</li>');
+                           });
+                       }     
+                   });
+               });
+
+               $('#btnClear').click(function () {
+                   $('#ulEmployees').empty();
+               });
+
+           });
+
+       </script>
+}
